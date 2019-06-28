@@ -65,7 +65,7 @@ public class SheetsQuickstart {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String spreadsheetId = "1h8kEizDgRbeOAlKUso8wBpzr8aYgIVmZzBhb_R_glq4";
-        final String range = "Class Data!A2:E";
+        final String range = "Sheet1!A2:E7";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
@@ -77,11 +77,16 @@ public class SheetsQuickstart {
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
         } else {
-            System.out.println("Name, Major");
-
             for (List row : values) {
-                // Print columns A and E, which correspond to indices 0 and 4.
-                System.out.printf("%s, %s\n", row.get(0), row.get(4));
+                for (Object cellValue : row) {
+                    if("".equals(cellValue)) {
+                        System.out.printf("  x  ", cellValue);
+                    } else {
+                        System.out.printf("%s ", cellValue);
+                    }
+                }
+
+                System.out.println();
             }
         }
     }
